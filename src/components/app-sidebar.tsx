@@ -159,7 +159,7 @@ export function AppSidebar({ name, role }: { name: string; role: Role }) {
       )}
 
       {/* Desktop rail */}
-      <aside className="group/rail sticky top-3 m-3 hidden h-[calc(100vh-1.5rem)] w-[72px] shrink-0 flex-col self-start overflow-hidden rounded-[1.5rem] bg-sidebar text-sidebar-foreground transition-[width] duration-300 ease-out hover:w-64 md:flex lg:top-[2.25rem] lg:h-[calc(100vh-4.5rem)]">
+      <aside className="group/rail sticky top-3 m-3 hidden h-[calc(100vh-1.5rem)] w-[72px] shrink-0 flex-col self-start overflow-hidden rounded-[1.5rem] bg-sidebar text-sidebar-foreground transition-[width] duration-300 ease-out hover:w-64 md:flex">
         {renderBrand(false)}
         {renderNav(false)}
         {renderFooter(false)}

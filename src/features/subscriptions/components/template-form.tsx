@@ -71,7 +71,7 @@ export function TemplateForm({ options, templateId, initial }: Props) {
             <Label>Recurring plan</Label>
             <Select value={planId} onValueChange={(v) => setPlanId(v ?? "")}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Choose a plan" />
+                <SelectValue placeholder="Choose a plan">{(() => { const p = options.plans.find((x) => x.id === planId); return p ? `${p.name} · ${formatINR(p.price)} / ${p.billingPeriod.toLowerCase()}` : undefined; })()}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {options.plans.map((p) => (
@@ -101,7 +101,7 @@ export function TemplateForm({ options, templateId, initial }: Props) {
                 <Label>Product</Label>
                 <Select value={line.productId} onValueChange={(v) => setLine(i, { productId: v ?? "" })}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a product" />
+                    <SelectValue placeholder="Choose a product">{options.products.find((p) => p.id === line.productId)?.name}</SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {options.products.map((p) => (

@@ -23,7 +23,7 @@ export function SubscriptionFilters() {
       <Input className="md:w-72" placeholder="Search number or customer…" defaultValue={params.get("q") ?? ""}
         onChange={(e) => update("q", e.target.value)} />
       <Select value={params.get("status") ?? ALL} onValueChange={(v) => update("status", v ?? "")}>
-        <SelectTrigger className="md:w-44"><SelectValue /></SelectTrigger>
+        <SelectTrigger className="md:w-44"><SelectValue>{params.get("status") ?? "All statuses"}</SelectValue></SelectTrigger>
         <SelectContent>
           <SelectItem value={ALL}>All statuses</SelectItem>
           {SUBSCRIPTION_STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}

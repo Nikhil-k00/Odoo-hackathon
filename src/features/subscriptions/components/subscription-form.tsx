@@ -112,7 +112,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
           </CardHeader>
           <CardContent>
             <Select value={templateId} onValueChange={(v) => v && applyTemplate(v)}>
-              <SelectTrigger className="w-full md:w-96"><SelectValue placeholder="Choose a template" /></SelectTrigger>
+              <SelectTrigger className="w-full md:w-96"><SelectValue placeholder="Choose a template">{options.templates.find((t) => t.id === templateId)?.name}</SelectValue></SelectTrigger>
               <SelectContent>
                 {options.templates.map((t) => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}
               </SelectContent>
@@ -127,7 +127,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
           <div>
             <Label>Customer</Label>
             <Select value={customerId} onValueChange={(v) => setCustomerId(v ?? "")}>
-              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a customer" /></SelectTrigger>
+              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a customer">{options.customers.find((c) => c.id === customerId)?.name}</SelectValue></SelectTrigger>
               <SelectContent>
                 {options.customers.map((c) => <SelectItem key={c.id} value={c.id}>{c.name} · {c.email}</SelectItem>)}
               </SelectContent>
@@ -137,7 +137,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
           <div>
             <Label>Recurring plan</Label>
             <Select value={planId} onValueChange={(v) => setPlanId(v ?? "")}>
-              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a plan" /></SelectTrigger>
+              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a plan">{plan ? `${plan.name} · ${formatINR(plan.price)} / ${plan.billingPeriod.toLowerCase()}` : undefined}</SelectValue></SelectTrigger>
               <SelectContent>
                 {options.plans.map((p) => (
                   <SelectItem key={p.id} value={p.id}>{p.name} · {formatINR(p.price)} / {p.billingPeriod.toLowerCase()}</SelectItem>
@@ -165,7 +165,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
           <div>
             <Label>Discount (optional)</Label>
             <Select value={discountId || NONE} onValueChange={(v) => setDiscountId(!v || v === NONE ? "" : v)}>
-              <SelectTrigger className="w-full"><SelectValue placeholder="No discount" /></SelectTrigger>
+              <SelectTrigger className="w-full"><SelectValue placeholder="No discount">{discountId ? options.discounts.find((d) => d.id === discountId)?.name : "No discount"}</SelectValue></SelectTrigger>
               <SelectContent>
                 <SelectItem value={NONE}>No discount</SelectItem>
                 {options.discounts.map((d) => (
@@ -198,7 +198,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
                 <div>
                   <Label>Product</Label>
                   <Select value={line.productId} onValueChange={(v) => v && onProduct(i, v)}>
-                    <SelectTrigger className="w-full"><SelectValue placeholder="Choose" /></SelectTrigger>
+                    <SelectTrigger className="w-full"><SelectValue placeholder="Choose">{product?.name}</SelectValue></SelectTrigger>
                     <SelectContent>
                       {options.products.map((p) => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
                     </SelectContent>
@@ -208,7 +208,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
                 <div>
                   <Label>Variant</Label>
                   <Select value={line.variantId || NONE} onValueChange={(v) => onVariant(i, v ?? NONE)} disabled={!product || product.variants.length === 0}>
-                    <SelectTrigger className="w-full"><SelectValue placeholder="None" /></SelectTrigger>
+                    <SelectTrigger className="w-full"><SelectValue placeholder="None">{(() => { const v = product?.variants.find((x) => x.id === line.variantId); return v ? `${v.attribute}: ${v.value}` : "None"; })()}</SelectValue></SelectTrigger>
                     <SelectContent>
                       <SelectItem value={NONE}>None</SelectItem>
                       {product?.variants.map((v) => (
@@ -221,7 +221,7 @@ export function SubscriptionForm({ options, subscriptionId, initial, initialTemp
                 <div>
                   <Label>Tax</Label>
                   <Select value={line.taxId || NONE} onValueChange={(v) => setLine(i, { taxId: !v || v === NONE ? "" : v })}>
-                    <SelectTrigger className="w-full"><SelectValue placeholder="No tax" /></SelectTrigger>
+                    <SelectTrigger className="w-full"><SelectValue placeholder="No tax">{line.taxId ? options.taxes.find((t) => t.id === line.taxId)?.name : "No tax"}</SelectValue></SelectTrigger>
                     <SelectContent>
                       <SelectItem value={NONE}>No tax</SelectItem>
                       {options.taxes.map((t) => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}

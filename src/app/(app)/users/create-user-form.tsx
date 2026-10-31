@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
+import { useFormPersist } from "@/components/use-form-persist";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createUserAction, type ActionState } from "@/features/auth/actions";
@@ -10,9 +11,10 @@ const initialState: ActionState = { ok: false };
 
 export function CreateUserForm() {
   const [state, action, pending] = useActionState(createUserAction, initialState);
+  const { formRef, wrap } = useFormPersist(state);
 
   return (
-    <form action={action} className="grid gap-4 md:grid-cols-2">
+    <form ref={formRef} action={wrap(action)} className="grid gap-4 md:grid-cols-2">
       <div className="flex flex-col gap-2">
         <Label htmlFor="cu-name">Name</Label>
         <Input id="cu-name" name="name" required />

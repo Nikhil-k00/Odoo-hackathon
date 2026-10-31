@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useFormPersist } from "@/components/use-form-persist";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addVariantAction } from "@/features/catalog/actions/products";
@@ -12,6 +13,7 @@ import { FieldError } from "./field-error";
 /** Inline "add variant" row on the product detail page (ADMIN only). */
 export function VariantForm({ productId }: { productId: string }) {
   const [state, formAction, pending] = useActionState(addVariantAction.bind(null, productId), null);
+  const { wrap } = useFormPersist(state);
   const formRef = useRef<HTMLFormElement>(null);
   const handled = useRef<typeof state>(null);
 
@@ -29,7 +31,7 @@ export function VariantForm({ productId }: { productId: string }) {
   const errors = state && !state.ok ? state.errors ?? {} : {};
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="grid gap-3 sm:grid-cols-[1fr_1fr_160px_auto] sm:items-start">
+    <form ref={formRef} action={wrap(formAction)} noValidate className="grid gap-3 sm:grid-cols-[1fr_1fr_160px_auto] sm:items-start">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="variant-attribute">Attribute</Label>
         <Input id="variant-attribute" name="attribute" placeholder="Brand" aria-invalid={Boolean(errors.attribute)} />

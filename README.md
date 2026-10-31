@@ -84,6 +84,7 @@ npm run dev                 # http://localhost:3000
 | `npm run dev` | Development server |
 | `npm run build && npm start` | Production build |
 | `npm run typecheck` / `npm run lint` | TypeScript and ESLint, both clean on `main` |
+| `npm run test:e2e` | Browser end-to-end run of the full demo flow (needs the app on port 3177, see `tests/README.md`) |
 | `npx prisma db seed` | Re-run the seed (safe to repeat) |
 | `npm run db:reset` | Wipe the local database and re-seed |
 
@@ -110,7 +111,10 @@ Monthly and Yearly plans, and an active 10 % discount `LAUNCH10`.
 8. **Customer** opens the portal and sees only their own data; pauses if the plan allows.
 9. **Admin** opens Dashboard and Reports: active subscriptions, MRR, revenue, outstanding, overdue, with filters.
 
-Tip: start demo subscriptions today so the second billing run shows zero. A start date in the past is billed as catch-up periods, one invoice per period, never twice for the same one.
+Tips for the demo:
+- Start the main subscription **today** so the second billing run shows 0 new invoices.
+- To show an **overdue** invoice, create one extra subscription with a start date a month or two in the past and run billing: its first invoice was due a week after that past start, so it shows the Overdue badge immediately.
+- Attach a discount on the subscription form if you want the invoice to show the discount line.
 
 ## Screenshots
 **Billing run** — time machine date, dry-run preview, commit (admin only)
@@ -125,6 +129,9 @@ Tip: start demo subscriptions today so the second billing run shows zero. A star
 **New subscription** — start from template, variant-aware unit prices, live totals
 ![New subscription](docs/screenshots/subscriptions-new.png)
 
+**Invoice detail** — customer, lines, discount, CGST + SGST, record payment
+![Invoice detail](docs/screenshots/invoice-detail.png)
+
 **Reports** — filters by date, plan and status; MRR by plan; overdue and payments tables
 ![Reports](docs/screenshots/reports.png)
 
@@ -132,12 +139,16 @@ Tip: start demo subscriptions today so the second billing run shows zero. A star
 |---|---|
 | ![Subscriptions](docs/screenshots/subscriptions.png) | ![Products](docs/screenshots/products.png) |
 
-| Customer portal | Login |
+| Customers | Customer portal |
 |---|---|
-| ![Portal](docs/screenshots/portal.png) | ![Login](docs/screenshots/login.png) |
+| ![Customers](docs/screenshots/customers.png) | ![Portal](docs/screenshots/portal.png) |
 
-The visual system follows `docs/design-reference.webp`: a white app window on a sage canvas, dark
-icon rail, black pill buttons, lime accent and Manrope type (self-hosted, so it works offline).
+| Login | Signup with live password checklist |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Signup](docs/screenshots/signup.png) |
+
+The visual system follows `docs/design-reference.webp`: full-screen white surface, dark icon rail that
+expands on hover, black pill buttons, lime accent and Manrope type (self-hosted, so it works offline).
 
 ## Architecture
 Next.js App Router with Server Actions. Every form validates with Zod on the server and shows inline

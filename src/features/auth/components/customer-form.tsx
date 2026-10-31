@@ -76,7 +76,7 @@ export function CustomerForm({ customerId, initial }: Props) {
           <div className="flex flex-col gap-1.5">
             <Label>State</Label>
             <Select value={form.state || undefined} onValueChange={(v) => setForm((f) => ({ ...f, state: v ?? "" }))}>
-              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a state" /></SelectTrigger>
+              <SelectTrigger className="w-full"><SelectValue placeholder="Choose a state">{form.state || undefined}</SelectValue></SelectTrigger>
               <SelectContent>{STATES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
             </Select>
             {err("state")}

@@ -150,7 +150,9 @@ export async function forgotPasswordAction(
 
   const resetUrl = `/reset-password?token=${rawToken}`;
 
-  if (process.env.NODE_ENV !== "production") {
+  // No email service exists in this offline build, so the link is shown on screen (and logged) in every mode.
+  console.log(`[recurra] password reset link for ${email}: ${resetUrl}`);
+  {
     return { ...generic, devResetUrl: resetUrl };
   }
   return generic;

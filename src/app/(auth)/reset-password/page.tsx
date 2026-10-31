@@ -22,7 +22,7 @@ function ResetForm() {
 
   if (!token) {
     return (
-      <div className="flex min-h-screen items-center justify-center p-6">
+      <div className="flex min-h-screen items-center justify-center bg-white p-6">
         <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle className="text-2xl">Reset password</CardTitle>
@@ -39,7 +39,7 @@ function ResetForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6">
+    <div className="flex min-h-screen items-center justify-center bg-white p-6">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Reset password</CardTitle>

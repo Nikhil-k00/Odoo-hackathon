@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import type { ActionState, FieldErrors } from "@/features/catalog/types";
+import { useFormPersist } from "@/components/use-form-persist";
 
 /**
  * Dialog + <form> wired to a Server Action through useActionState.
@@ -42,6 +43,7 @@ export function ActionFormDialog({
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState(action, null);
   const lastHandled = useRef<ActionState>(null);
+  const { formRef, wrap } = useFormPersist(state);
 
   useEffect(() => {
     if (!state || state === lastHandled.current) return;
@@ -62,7 +64,7 @@ export function ActionFormDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={trigger} />
       <DialogContent className={className ?? "sm:max-w-lg"}>
-        <form action={formAction} className="flex flex-col gap-4" noValidate>
+        <form ref={formRef} action={wrap(formAction)} className="flex flex-col gap-4" noValidate>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {description && <DialogDescription>{description}</DialogDescription>}

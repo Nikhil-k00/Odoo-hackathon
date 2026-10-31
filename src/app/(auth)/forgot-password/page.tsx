@@ -13,7 +13,7 @@ export default function ForgotPasswordPage() {
   const [state, action, pending] = useActionState(forgotPasswordAction, initialState);
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6">
+    <div className="flex min-h-screen items-center justify-center bg-white p-6">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Forgot password</CardTitle>

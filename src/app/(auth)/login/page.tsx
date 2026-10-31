@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useFormPersist } from "@/components/use-form-persist";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,17 +17,18 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "";
   const [state, action, pending] = useActionState(loginAction, initialState);
+  const { formRef, wrap } = useFormPersist(state);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-6">
+    <div className="flex min-h-screen items-center justify-center bg-white p-6">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Recurra</CardTitle>
           <CardDescription>Sign in to manage subscriptions and billing.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={action} className="flex flex-col gap-4">
+          <form ref={formRef} action={wrap(action)} className="flex flex-col gap-4">
             <input type="hidden" name="next" value={next} />
             <div className="flex flex-col gap-2">
               <Label htmlFor="email">Email</Label>
