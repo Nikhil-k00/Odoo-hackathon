@@ -48,6 +48,7 @@ export function ActionFormDialog({
     lastHandled.current = state;
     if (state.ok) {
       toast.success(state.message ?? "Saved");
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- closing the dialog in response to a completed server action
       setOpen(false);
       onSuccess?.(state);
     } else if (state.message && !state.errors) {

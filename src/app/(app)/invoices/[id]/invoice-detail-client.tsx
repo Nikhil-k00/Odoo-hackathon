@@ -94,7 +94,7 @@ export interface InvoiceDetailProps {
   currentUserRole: "ADMIN" | "INTERNAL" | "PORTAL";
 }
 
-export function InvoiceDetailClient({ invoice, currentUserRole }: InvoiceDetailProps) {
+export function InvoiceDetailClient({ invoice }: InvoiceDetailProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);

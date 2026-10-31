@@ -2,7 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -24,12 +25,15 @@ export default async function CustomersPage({ searchParams }: { searchParams: Pr
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Customers</h1>
-          <p className="text-sm text-muted-foreground">Portal users who can hold subscriptions. Customers sign up themselves at /signup.</p>
+          <p className="text-sm text-muted-foreground">Portal users who can hold subscriptions. Customers can also sign up themselves.</p>
         </div>
-        <form method="get" className="flex gap-2">
-          <Input name="q" defaultValue={q ?? ""} placeholder="Search name, email or GSTIN…" className="md:w-72" />
-          <Button type="submit" variant="outline">Search</Button>
-        </form>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <form method="get" className="flex gap-2">
+            <Input name="q" defaultValue={q ?? ""} placeholder="Search name, email or GSTIN…" className="md:w-72" />
+            <Button type="submit" variant="outline">Search</Button>
+          </form>
+          <Link href="/customers/new" className={buttonVariants()}><Plus className="h-4 w-4" /> New customer</Link>
+        </div>
       </div>
       <Card><CardContent className="overflow-x-auto p-0">
         {customers.length === 0 ? (
@@ -50,7 +54,7 @@ export default async function CustomersPage({ searchParams }: { searchParams: Pr
                   <TableCell className="font-mono text-xs">{c.gstin ?? "-"}</TableCell>
                   <TableCell className="text-right">{c._count.subscriptions}</TableCell>
                   <TableCell className="text-right">{c._count.invoices}</TableCell>
-                  <TableCell className="text-right"><Link href={`/subscriptions?q=${encodeURIComponent(c.name)}`} className="text-sm underline">View subscriptions</Link></TableCell>
+                  <TableCell className="text-right whitespace-nowrap"><Link href={`/customers/${c.id}`} className="text-sm underline">Edit</Link><span className="mx-2 text-muted-foreground">·</span><Link href={`/subscriptions?q=${encodeURIComponent(c.name)}`} className="text-sm underline">Subscriptions</Link></TableCell>
                 </TableRow>
               ))}
             </TableBody>
