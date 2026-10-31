@@ -104,14 +104,14 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
             <div className="flex flex-col gap-1.5"><Label htmlFor="to">To</Label><Input id="to" type="date" name="to" defaultValue={sp.to ?? ""} /></div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="planId">Plan</Label>
-              <select id="planId" name="planId" defaultValue={planId ?? ""} className="h-9 rounded-md border border-input bg-background px-3 text-sm">
+              <select id="planId" name="planId" defaultValue={planId ?? ""} className="h-10 rounded-xl border border-black/10 bg-white px-3 text-sm">
                 <option value="">All plans</option>
                 {plans.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="status">Subscription status</Label>
-              <select id="status" name="status" defaultValue={status ?? ""} className="h-9 rounded-md border border-input bg-background px-3 text-sm">
+              <select id="status" name="status" defaultValue={status ?? ""} className="h-10 rounded-xl border border-black/10 bg-white px-3 text-sm">
                 <option value="">All statuses</option>
                 {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
