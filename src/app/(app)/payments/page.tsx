@@ -1,7 +1,36 @@
-import { PlaceholderPage } from "@/components/placeholder-page";
+import { prisma } from "@/lib/db";
 import { requireRole } from "@/lib/session";
+import { PaymentsClient } from "./payments-client";
 
-export default async function Page() {
+export default async function PaymentsPage() {
   await requireRole(["ADMIN", "INTERNAL"]);
-  return <PlaceholderPage title="Payments" owner="M5 (Billing)" description="Payments recorded against invoices by UPI, card, bank or cash." />;
+
+  const payments = await prisma.payment.findMany({
+    orderBy: { paymentDate: "desc" },
+    include: {
+      invoice: {
+        select: {
+          id: true,
+          number: true,
+          total: true,
+          customer: {
+            select: { id: true, name: true, email: true },
+          },
+        },
+      },
+    },
+  });
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight">Payments</h1>
+        <p className="text-muted-foreground">
+          View all incoming revenue transactions, payment methods, and ledger receipts.
+        </p>
+      </div>
+
+      <PaymentsClient initialPayments={payments} />
+    </div>
+  );
 }
