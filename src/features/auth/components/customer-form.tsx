@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { saveCustomer, type CustomerInput } from "../customers";
+import { saveCustomer } from "../customers";
+import type { CustomerInput } from "../customer-schema";
 
 const STATES = ["Kerala", "Karnataka", "Tamil Nadu", "Maharashtra", "Delhi", "Gujarat", "Telangana", "Andhra Pradesh", "West Bengal", "Other"];
 
