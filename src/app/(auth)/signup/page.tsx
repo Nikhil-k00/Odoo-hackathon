@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useActionState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Check, Eye, EyeOff, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,13 @@ export default function SignupPage() {
   const [state, action, pending] = useActionState(signupAction, initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [pw, setPw] = useState("");
+  const rules = [
+    { label: "At least 8 characters", ok: pw.length >= 8 },
+    { label: "An uppercase letter", ok: /[A-Z]/.test(pw) },
+    { label: "A lowercase letter", ok: /[a-z]/.test(pw) },
+    { label: "A special character (e.g. @ # !)", ok: /[^A-Za-z0-9]/.test(pw) },
+  ];
 
   return (
     <div className="flex min-h-screen items-center justify-center p-6">
@@ -54,6 +61,7 @@ export default function SignupPage() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
+                  onChange={(e) => setPw(e.target.value)}
                   required
                   className="pr-10"
                 />
@@ -69,6 +77,13 @@ export default function SignupPage() {
               {state.fieldErrors?.password?.map((e) => (
                 <p key={e} className="text-sm text-destructive">{e}</p>
               ))}
+              <ul className="grid gap-1 text-xs sm:grid-cols-2" aria-live="polite">
+                {rules.map((r) => (
+                  <li key={r.label} className={r.ok ? "flex items-center gap-1 text-emerald-600" : "flex items-center gap-1 text-muted-foreground"}>
+                    {r.ok ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />} {r.label}
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="confirmPassword">Confirm password</Label>

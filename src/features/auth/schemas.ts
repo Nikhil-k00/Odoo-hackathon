@@ -15,7 +15,7 @@ export const signupSchema = z
       .max(128)
       .regex(/[A-Z]/, "Password must contain an uppercase letter.")
       .regex(/[a-z]/, "Password must contain a lowercase letter.")
-      .regex(/[0-9]/, "Password must contain a number."),
+      .regex(/[^A-Za-z0-9]/, "Password must contain a special character."),
     confirmPassword: z.string().min(1, "Please confirm your password."),
     phone: z.string().trim().max(30).optional().or(z.literal("")),
   })
@@ -37,7 +37,7 @@ export const resetPasswordSchema = z
       .max(128)
       .regex(/[A-Z]/, "Password must contain an uppercase letter.")
       .regex(/[a-z]/, "Password must contain a lowercase letter.")
-      .regex(/[0-9]/, "Password must contain a number."),
+      .regex(/[^A-Za-z0-9]/, "Password must contain a special character."),
     confirmPassword: z.string().min(1, "Please confirm your password."),
   })
   .refine((d) => d.password === d.confirmPassword, {
@@ -54,7 +54,7 @@ export const createUserSchema = z.object({
     .max(128)
     .regex(/[A-Z]/)
     .regex(/[a-z]/)
-    .regex(/[0-9]/),
+    .regex(/[^A-Za-z0-9]/),
   role: z.enum(["INTERNAL"]), // only internal staff may be created by admin via this form
   phone: z.string().trim().max(30).optional().or(z.literal("")),
   address: z.string().trim().max(200).optional().or(z.literal("")),
