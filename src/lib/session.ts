@@ -8,13 +8,16 @@ export type Session = { userId: string; role: Role; name: string };
 export const SESSION_COOKIE = "session";
 const SESSION_DAYS = 7;
 const ROLES: Role[] = ["ADMIN", "INTERNAL", "PORTAL"];
+const MIN_SECRET_LENGTH = 32;
 
 function secret(): Uint8Array {
   const s = process.env.JWT_SECRET;
-  if (!s) {
-    console.warn("JWT_SECRET is not set; using an insecure development fallback.");
+  if (!s || s.length < MIN_SECRET_LENGTH) {
+    throw new Error(
+      "JWT_SECRET must be configured and at least 32 characters long."
+    );
   }
-  return new TextEncoder().encode(s ?? "recurra-insecure-dev-fallback-secret");
+  return new TextEncoder().encode(s);
 }
 
 /** Signs a JWT for the user and stores it in the httpOnly `session` cookie. */
