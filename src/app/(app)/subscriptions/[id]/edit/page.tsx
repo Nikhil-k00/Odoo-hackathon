@@ -16,7 +16,7 @@ export default async function EditSubscriptionPage({ params }: { params: Promise
   if (!canEditLines(sub.status)) redirect(`/subscriptions/${id}`);
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Edit {sub.number}</h1>
+      <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Edit {sub.number}</h1>
       <SubscriptionForm
         options={options}
         subscriptionId={sub.id}

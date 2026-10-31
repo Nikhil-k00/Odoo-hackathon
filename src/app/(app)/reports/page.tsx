@@ -93,7 +93,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   return (
     <div className="flex flex-col gap-4 p-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Reports</h1>
+        <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Reports</h1>
         <p className="text-sm text-muted-foreground">Revenue, outstanding, overdue and MRR. Filters apply to invoice periods and payment dates.</p>
       </div>
 

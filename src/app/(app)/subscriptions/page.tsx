@@ -31,7 +31,7 @@ export default async function SubscriptionsPage({ searchParams }: { searchParams
     <div className="flex flex-col gap-4 p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Subscriptions</h1>
+          <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Subscriptions</h1>
           <p className="text-sm text-muted-foreground">Draft → Quotation → Confirmed → Active → Closed</p>
         </div>
         <Link href="/subscriptions/new" className={buttonVariants()}><Plus className="h-4 w-4" /> New subscription</Link>

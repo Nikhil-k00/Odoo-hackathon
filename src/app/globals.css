@@ -48,38 +48,39 @@
 }
 
 :root {
-  --background: oklch(0.975 0.005 264);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.511 0.262 277);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.955 0.006 264);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #a3b1a4;
+  --foreground: #141414;
+  --card: #eef1ec;
+  --card-foreground: #141414;
+  --popover: #ffffff;
+  --popover-foreground: #141414;
+  --primary: #141414;
+  --primary-foreground: #ffffff;
+  --secondary: #ffffff;
+  --secondary-foreground: #141414;
+  --muted: #eef1ec;
+  --muted-foreground: #6f766f;
+  --accent: #e4f77e;
+  --accent-foreground: #141414;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.01 264);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.511 0.262 277);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #e1e6df;
+  --input: #e1e6df;
+  --ring: #141414;
+  --chart-1: #141414;
+  --chart-2: #e4f77e;
+  --chart-3: #a3b1a4;
+  --chart-4: #6f766f;
+  --chart-5: #eef1ec;
+  --radius: 1rem;
+  --sidebar: #151515;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #e4f77e;
+  --sidebar-primary-foreground: #141414;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #e4f77e;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
 .dark {
@@ -127,3 +128,6 @@
     @apply font-sans;
   }
 }
+/* Recurra design system helpers */
+.font-heading { letter-spacing: -0.02em; }
+::selection { background: #e4f77e; color: #141414; }

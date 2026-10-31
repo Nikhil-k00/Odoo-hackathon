@@ -14,7 +14,7 @@ export default async function EditTemplatePage({ params }: { params: Promise<{ i
   if (!template) notFound();
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Edit Template</h1>
+      <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Edit Template</h1>
       <TemplateForm
         options={options}
         templateId={template.id}

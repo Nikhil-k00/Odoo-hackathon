@@ -27,7 +27,7 @@ export default async function SubscriptionDetailPage({ params }: { params: Promi
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold tracking-tight">{sub.number}</h1>
+            <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">{sub.number}</h1>
             <Badge variant={statusVariant(sub.status)}>{sub.status}</Badge>
           </div>
           <p className="text-sm text-muted-foreground">{sub.customer.name} · {sub.plan.name} plan · {sub.paymentTerms}</p>

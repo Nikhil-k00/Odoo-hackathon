@@ -31,7 +31,7 @@ export default async function UserDetailPage({
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center gap-3">
-        <h1 className="text-2xl font-semibold tracking-tight">{user.name}</h1>
+        <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">{user.name}</h1>
         <Badge variant={user.role === "ADMIN" ? "default" : "secondary"}>{user.role}</Badge>
       </div>
       <Card>

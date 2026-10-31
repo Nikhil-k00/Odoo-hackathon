@@ -20,7 +20,7 @@ export default async function TemplatesPage() {
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Quotation Templates</h1>
+          <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Quotation Templates</h1>
           <p className="text-sm text-muted-foreground">Reusable plan + product bundles to start a subscription from.</p>
         </div>
         <Link href="/templates/new" className={buttonVariants()}><Plus className="h-4 w-4" /> New template</Link>

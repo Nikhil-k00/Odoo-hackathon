@@ -32,7 +32,7 @@ GST split by customer state, an audit timeline per subscription and a live KPI d
 | PORTAL | Customer; sees and acts only on their own subscriptions and invoices |
 
 ## Tech stack
-Next.js 15 (App Router, Server Actions) · TypeScript · Tailwind CSS 4 + shadcn/ui · Prisma 6 + SQLite ·
+Next.js 16 (App Router, Server Actions) · TypeScript · Tailwind CSS 4 + shadcn/ui · Prisma 6 + SQLite ·
 Zod · bcryptjs · jose (JWT session cookie). Runs fully offline on a laptop; no cloud services.
 
 ## Setup
@@ -89,4 +89,12 @@ The full build guide is `Recurra_Team_Build_Guide.pdf`.
 9. Dashboard and reports show active subs, revenue, outstanding, overdue and MRR.
 
 ## Screenshots
-_Added after integration._
+| Dashboard | Subscriptions |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Subscriptions](docs/screenshots/subscriptions.png) |
+
+| Billing run | Login |
+|---|---|
+| ![Billing run](docs/screenshots/billing.png) | ![Login](docs/screenshots/login.png) |
+
+Design reference: `docs/design-reference.webp` (dark icon rail, white app window on a sage canvas, black pill buttons, lime accent, Manrope type).

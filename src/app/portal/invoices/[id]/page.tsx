@@ -24,7 +24,7 @@ export default async function PortalInvoicePage({ params }: { params: Promise<{ 
     <div className="mx-auto flex max-w-3xl flex-col gap-4 p-6">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">{inv.number}</h1>
+          <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">{inv.number}</h1>
           <Badge variant={inv.status === "PAID" ? "default" : "secondary"}>{inv.status}</Badge>
         </div>
         <Link href="/portal" className={buttonVariants({ variant: "outline", size: "sm" })}>Back</Link>

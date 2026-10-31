@@ -41,7 +41,7 @@ export default async function UsersPage({
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Users</h1>
+        <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Users</h1>
       </div>
 
       <Card>

@@ -47,7 +47,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">{product.name}</h1>
+            <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">{product.name}</h1>
             <Badge variant="outline">{titleCase(product.type)}</Badge>
             <Badge variant={product.active ? "default" : "secondary"}>{product.active ? "Active" : "Inactive"}</Badge>
           </div>

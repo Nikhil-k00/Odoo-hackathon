@@ -7,7 +7,7 @@ export default async function NewSubscriptionPage({ searchParams }: { searchPara
   const [{ template }, options] = await Promise.all([searchParams, getFormOptions()]);
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">New Subscription</h1>
+      <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">New Subscription</h1>
       <SubscriptionForm options={options} initialTemplateId={template} />
     </div>
   );

@@ -28,7 +28,7 @@ export default async function PortalPage() {
     <div className="mx-auto flex max-w-5xl flex-col gap-4 p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Welcome, {session.name}</h1>
+          <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Welcome, {session.name}</h1>
           <p className="text-sm text-muted-foreground">Your subscriptions and invoices with Recurra.</p>
         </div>
         <form action={logoutAction}><Button type="submit" variant="outline" size="sm">Logout</Button></form>

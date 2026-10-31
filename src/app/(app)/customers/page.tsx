@@ -24,7 +24,7 @@ export default async function CustomersPage({ searchParams }: { searchParams: Pr
     <div className="flex flex-col gap-4 p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Customers</h1>
+          <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Customers</h1>
           <p className="text-sm text-muted-foreground">Portal users who can hold subscriptions. Customers can also sign up themselves.</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
