@@ -113,7 +113,7 @@ Monthly and Yearly plans, and an active 10 % discount `LAUNCH10`.
 
 Tips for the demo:
 - Start the main subscription **today** so the second billing run shows 0 new invoices.
-- To show an **overdue** invoice, create one extra subscription with a start date a month or two in the past and run billing: its first invoice was due a week after that past start, so it shows the Overdue badge immediately.
+- To show an **overdue** invoice, create one extra subscription on a monthly plan with a start date **two to four weeks ago** and run billing: its first invoice was due a week after that start, so it shows the Overdue badge immediately, and its next period is not due yet, so the second run still creates 0.
 - Attach a discount on the subscription form if you want the invoice to show the discount line.
 
 ## Screenshots

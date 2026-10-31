@@ -13,7 +13,7 @@ export function PillChart({ data }: { data: MonthPoint[] }) {
   const step = innerW / data.length;
   const barW = Math.min(30, step * 0.42);
   const ticks = [0, 0.25, 0.5, 0.75, 1];
-  const compact = (n: number) => (n >= 1000 ? `${Math.round(n / 1000)}K` : `${Math.round(n)}`);
+  const compact = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "")}K` : `${Math.round(n)}`);
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label="Invoiced versus collected by month">
