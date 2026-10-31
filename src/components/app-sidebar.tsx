@@ -67,7 +67,7 @@ export function AppSidebar({ name, role }: { name: string; role: Role }) {
 
   const groups = NAV.map((g) => ({ ...g, items: g.items.filter((i) => !i.roles || i.roles.includes(role)) })).filter((g) => g.items.length > 0);
 
-  const Nav = ({ expanded }: { expanded: boolean }) => (
+  const renderNav = (expanded: boolean) => (
     <nav className="flex flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden px-3 py-2 [scrollbar-width:none]">
       {groups.map((group, gi) => (
         <div key={group.title} className={cn(gi > 0 && "mt-2 border-t border-white/10 pt-2")}>
@@ -101,7 +101,7 @@ export function AppSidebar({ name, role }: { name: string; role: Role }) {
     </nav>
   );
 
-  const Footer = ({ expanded }: { expanded: boolean }) => (
+  const renderFooter = (expanded: boolean) => (
     <div className="border-t border-white/10 p-3">
       <div className="flex h-11 items-center gap-3 px-1">
         <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">{initials(name)}</span>
@@ -119,7 +119,7 @@ export function AppSidebar({ name, role }: { name: string; role: Role }) {
     </div>
   );
 
-  const Brand = ({ expanded }: { expanded: boolean }) => (
+  const renderBrand = (expanded: boolean) => (
     <div className="flex h-[72px] items-center gap-3 px-4">
       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white text-black">
         <Repeat className="size-5" />
@@ -147,22 +147,22 @@ export function AppSidebar({ name, role }: { name: string; role: Role }) {
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
           <aside className="group/rail absolute inset-y-2 left-2 flex w-72 flex-col rounded-[1.5rem] bg-sidebar text-sidebar-foreground shadow-2xl">
             <div className="flex items-center justify-between pr-3">
-              <Brand expanded />
+              {renderBrand(true)}
               <Button variant="ghost" size="icon" aria-label="Close menu" className="text-white hover:bg-white/10" onClick={() => setOpen(false)}>
                 <X className="size-5" />
               </Button>
             </div>
-            <Nav expanded />
-            <Footer expanded />
+            {renderNav(true)}
+            {renderFooter(true)}
           </aside>
         </div>
       )}
 
       {/* Desktop rail */}
       <aside className="group/rail sticky top-3 m-3 hidden h-[calc(100vh-1.5rem)] w-[72px] shrink-0 flex-col self-start overflow-hidden rounded-[1.5rem] bg-sidebar text-sidebar-foreground transition-[width] duration-300 ease-out hover:w-64 md:flex lg:top-[2.25rem] lg:h-[calc(100vh-4.5rem)]">
-        <Brand expanded={false} />
-        <Nav expanded={false} />
-        <Footer expanded={false} />
+        {renderBrand(false)}
+        {renderNav(false)}
+        {renderFooter(false)}
       </aside>
     </>
   );
