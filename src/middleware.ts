@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/signup", "/forgot-password", "/reset"];
+const PUBLIC_PATHS = ["/login", "/signup", "/forgot-password", "/reset", "/reset-password"];
 const SESSION_COOKIE = "session";
 
 function isPublic(pathname: string): boolean {

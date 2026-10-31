@@ -1,44 +1,113 @@
-import { requireRole } from "@/lib/session";
-import { prisma } from "@/lib/db";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { prisma } from "@/lib/db";
+import { requireRole } from "@/lib/session";
+import { formatINR, round2 } from "@/lib/money";
+import { formatDate } from "@/lib/dates";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+/** Normalises a plan price to a monthly figure for MRR. */
+function monthly(price: number, period: string): number {
+  switch (period) {
+    case "DAILY": return price * 30;
+    case "WEEKLY": return (price * 52) / 12;
+    case "YEARLY": return price / 12;
+    default: return price;
+  }
+}
 
 export default async function DashboardPage() {
-  const session = await requireRole(["ADMIN", "INTERNAL"]);
+  await requireRole(["ADMIN", "INTERNAL"]);
+  const now = new Date();
 
-  const [users, subscriptions, invoices] = await Promise.all([
-    prisma.user.count(),
-    prisma.subscription.count(),
-    prisma.invoice.count(),
+  const [activeSubs, payments, confirmed, overdueCandidates, mrrSubs, recentInvoices] = await Promise.all([
+    prisma.subscription.count({ where: { status: "ACTIVE" } }),
+    prisma.payment.aggregate({ _sum: { amount: true } }),
+    prisma.invoice.aggregate({ where: { status: "CONFIRMED" }, _sum: { total: true, amountPaid: true } }),
+    prisma.invoice.findMany({ where: { status: "CONFIRMED", dueDate: { lt: now } }, select: { total: true, amountPaid: true } }),
+    prisma.subscription.findMany({
+      where: { status: "ACTIVE" },
+      select: { plan: { select: { price: true, billingPeriod: true } }, lines: { select: { quantity: true } } },
+    }),
+    prisma.invoice.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      include: { customer: { select: { name: true } }, subscription: { select: { number: true } } },
+    }),
   ]);
 
+  const revenue = payments._sum.amount ?? 0;
+  const outstanding = (confirmed._sum.total ?? 0) - (confirmed._sum.amountPaid ?? 0);
+  const overdue = overdueCandidates.filter((i) => i.amountPaid < i.total);
+  const overdueAmount = overdue.reduce((s, i) => s + (i.total - i.amountPaid), 0);
+  const mrr = mrrSubs.reduce((s, sub) => {
+    const qty = sub.lines.reduce((q, l) => q + l.quantity, 0) || 1;
+    return s + monthly(sub.plan.price, sub.plan.billingPeriod) * qty;
+  }, 0);
+
+  const kpis = [
+    { label: "Active subscriptions", value: String(activeSubs), hint: "Status ACTIVE" },
+    { label: "MRR", value: formatINR(round2(mrr)), hint: "Monthly-normalised plan price × quantity" },
+    { label: "Revenue collected", value: formatINR(revenue), hint: "Sum of all payments" },
+    { label: "Outstanding", value: formatINR(round2(outstanding)), hint: "Confirmed invoices not yet paid" },
+    { label: "Overdue invoices", value: String(overdue.length), hint: `${formatINR(round2(overdueAmount))} past due date` },
+  ];
+
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-4 p-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Welcome back, {session.name}. Signed in as {session.role}.
-        </p>
+        <p className="text-sm text-muted-foreground">Live numbers from the database as of {formatDate(now)}.</p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Card>
-          <CardHeader><CardTitle className="text-sm text-muted-foreground">Users</CardTitle></CardHeader>
-          <CardContent><p className="text-2xl font-semibold">{users}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle className="text-sm text-muted-foreground">Subscriptions</CardTitle></CardHeader>
-          <CardContent><p className="text-2xl font-semibold">{subscriptions}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle className="text-sm text-muted-foreground">Invoices</CardTitle></CardHeader>
-          <CardContent><p className="text-2xl font-semibold">{invoices}</p></CardContent>
-        </Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {kpis.map((k) => (
+          <Card key={k.label}>
+            <CardHeader className="pb-2"><CardDescription>{k.label}</CardDescription></CardHeader>
+            <CardContent>
+              <p className="text-2xl font-semibold tabular-nums">{k.value}</p>
+              <p className="text-xs text-muted-foreground">{k.hint}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
-      <div className="flex gap-2">
-        <Link href="/reports" className={buttonVariants({ variant: "outline" })}>Reports</Link>
-        <Link href="/users" className={buttonVariants({ variant: "outline" })}>Users</Link>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent invoices</CardTitle>
+          <CardDescription>Latest invoices generated by the billing run.</CardDescription>
+        </CardHeader>
+        <CardContent className="overflow-x-auto p-0">
+          {recentInvoices.length === 0 ? (
+            <p className="p-6 text-sm text-muted-foreground">No invoices yet. Activate a subscription and run <Link href="/billing" className="underline">Billing</Link>.</p>
+          ) : (
+            <Table>
+              <TableHeader><TableRow>
+                <TableHead>Invoice</TableHead><TableHead>Customer</TableHead><TableHead>Subscription</TableHead>
+                <TableHead>Due</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Total</TableHead><TableHead className="text-right">Outstanding</TableHead>
+              </TableRow></TableHeader>
+              <TableBody>
+                {recentInvoices.map((inv) => {
+                  const isOverdue = inv.status === "CONFIRMED" && inv.dueDate < now && inv.amountPaid < inv.total;
+                  return (
+                    <TableRow key={inv.id}>
+                      <TableCell className="font-medium"><Link href={`/invoices/${inv.id}`} className="hover:underline">{inv.number}</Link></TableCell>
+                      <TableCell>{inv.customer.name}</TableCell>
+                      <TableCell>{inv.subscription.number}</TableCell>
+                      <TableCell>{formatDate(inv.dueDate)}</TableCell>
+                      <TableCell className="flex gap-1">
+                        <Badge variant={inv.status === "PAID" ? "default" : inv.status === "CANCELLED" ? "destructive" : "secondary"}>{inv.status}</Badge>
+                        {isOverdue && <Badge variant="destructive">Overdue</Badge>}
+                      </TableCell>
+                      <TableCell className="text-right">{formatINR(inv.total)}</TableCell>
+                      <TableCell className="text-right">{formatINR(round2(inv.total - inv.amountPaid))}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
